@@ -1,12 +1,12 @@
 # WordGen changes v1.01: 
 -Removed bloat sleeps (14 of them) <br>
 -Added randomness to numbers, they were previously set to repeat 123,123,456 and nothing else<br>
--Adjusted code to no longer utilise the time package, making it more lightweight<br>
+-Adjusted code to no longer utilise the time package, making it slightly more lightweight<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Updated option 1 to include random, something that was previously missing entirely. Technically it is possible to generate a file with the same default name, but considering the odds are 1/10000000000 it shouldn’t be an issue.<br>
 -Removed many formatting commands due to them not working in every environment and potentially being unfriendly to users with colour impairment.<br>
-<space><space><space><space><space>-Technically reduces resources required but by a very minimal amount. <br>
-<space><space><space><space><space>-Kept formatting for the title as that should not have negative consequences in other environments.<br>
-<space><space><space><space><space>-ALL line breaks were preserved, and a few were added for extra readability.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Technically reduces resources required but by a very minimal amount. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Kept formatting for the title as that should not have negative consequences in other environments.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-ALL line breaks were preserved, and a few were added for extra readability.<br>
 -Added some comments throughout code to make it as easy to use for others later on.<br>
 -Replaced all clear_screen_with_message() (21) to print() to ensure users can backtrack lines in all environments, allowing users to check filenames and other input later.<br>
 -Added utility for count for option<br>
