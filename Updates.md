@@ -1,3 +1,18 @@
+# WordGen changes v1.02:
+-Cleaned up the main() function a bit, and added an easy exit upon start up<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Removed the input() from print_header() as it added extra delay and didn't allow for an immediate exit.<br>
+-Did a memory test, no leaks noticed<br>
+-Added more comments for future readability<br>
+-Removed "❯ It will automatically shut down after 5 seconds..." as it is now pointless<br>
+-Future-proofed option 2 by making it read current year for max, instead of being limited to 2025<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Downside is imported date<br>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+
 # WordGen changes v1.01: 
 -Removed bloat sleeps (14 of them) <br>
 -Added randomness to numbers, they were previously set to repeat 123,123,456 and nothing else<br>
