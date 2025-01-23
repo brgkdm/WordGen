@@ -2,7 +2,6 @@ import itertools
 import random
 import string
 import os
-#import time
 import sys
 import logging
 import random
