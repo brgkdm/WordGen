@@ -17,7 +17,7 @@
 -Removed bloat sleeps (14 of them) <br>
 -Added randomness to numbers, they were previously set to repeat 123,123,456 and nothing else<br>
 -Adjusted code to no longer utilise the time package, making it slightly more lightweight<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Updated option 1 to include random, something that was previously missing entirely. Technically it is possible to generate a file with the same default name, but considering the odds are 1/10000000000 it shouldn’t be an issue.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Updated default generated filename to utilise random instead of time. Technically it is possible to generate a file with the same default name, but considering the odds are 1/10000000000 it shouldn’t be an issue.<br>
 -Removed many formatting commands due to them not working in every environment and potentially being unfriendly to users with colour impairment.<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Technically reduces resources required but by a very minimal amount. <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Kept formatting for the title as that should not have negative consequences in other environments.<br>
