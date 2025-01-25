@@ -2,7 +2,8 @@
 
 This Python script generates customizable wordlists for use just security testing, or other related purposes. You can create wordlists using various combinations of words, numbers, special characters, and more. The script is designed to be simple and flexible, allowing you to define the type of combinations and the length of the wordlist you want to generate.
 
-![wordgenn](https://github.com/user-attachments/assets/d02a4a8b-fd51-480c-b75b-9469720b9bb4)
+![wordgen](https://github.com/user-attachments/assets/ad68c8a0-e26d-428f-85b0-d7ffbc3e3c6e)
+
 
 
 ## Features
