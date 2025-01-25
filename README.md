@@ -24,3 +24,6 @@ To use this script, simply clone the repository and run the script with Python:
 git clone https://github.com/brgkdm/WordGen
 cd WordGen
 python wordgen.py
+```
+## Contributors  
+- [sudoAshroom](https://github.com/sudoAshroom) - Major code improvements and optimizations
