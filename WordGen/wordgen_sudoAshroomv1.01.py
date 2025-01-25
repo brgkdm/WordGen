@@ -2,21 +2,20 @@ import itertools
 import random
 import string
 import os
-import time
 import sys
 import logging
+import random
 
 logging.basicConfig(filename="wordgen.log", level=logging.INFO,
                     format="%(asctime)s - %(levelname)s - %(message)s")
 
-def clear_screen_with_message(message):
-    print("\033c", end="")  # Clear screen
+def print_brg(message):
     print("\033[32m")
     print(message)
     print("\033[0m")
 
 def print_header():
-    clear_screen_with_message(r"""
+    print(r"""
 
 ░██╗░░░░░░░██╗░█████╗░██████╗░██████╗░░██████╗░███████╗███╗░░██╗
 ░██║░░██╗░░██║██╔══██╗██╔══██╗██╔══██╗██╔════╝░██╔════╝████╗░██║
@@ -27,80 +26,73 @@ def print_header():
           """)
     print("\033[0m")
     print(r"""
-https://github.com/brgkdm
+created by: https://github.com/brgkdm edited by: https://github.com/sudoAshroom
           """)
     print("*If you create the same file twice, it will overwrite the file.")
     print("\nPress Enter.\n")
     input()
 
-def choose_output_file():
-    default_name = f"wordlist_{int(time.time())}.txt"
-    clear_screen_with_message(f"\033[33m❯ Default file name: {default_name}\033[0m\n\nEnter file name (or press Enter for default): ")
+def choose_output_file():                                  #dictates file name
+    default_name = f"wordlist_{random.randrange(1,10000000000)}.txt"
+    print(f"❯ Default file name: {default_name}\n\nEnter file name (or press Enter for default): ")
     filename = input()
     if not filename:
         filename = default_name
     if not filename.endswith(".txt"):
         filename += ".txt"
-    clear_screen_with_message(f"\033[32m\n***The wordlist will be saved as: {filename} in the current directory.\n\033[0m")
-    time.sleep(4)
+    print(f"\n***The wordlist will be saved as: {filename} in the current directory.\n")
     return filename
 
-def choose_combination_type():
+def choose_combination_type():                             #Generation choices for the user
     while True:
-        clear_screen_with_message("\033[33m❯ Select the type of password combination to generate.\033[0m\n\n1. Words + Numbers (e.g., word123, 123word)\n2. Capitalized + Year (e.g., Word2024)\n3. Words + Special Characters (e.g., word!, word@123)\n4. Mixed Case Randomized (e.g., wOrD123)\n5. All Options Combined (recommended)")
-        choice = input("\n❯ Enter your choice (1-5)?: ")
+        print("❯ Select the type of password combination to generate.\n\n1. Words + Numbers (e.g., word123, 123word)\n2. Capitalized + Year (e.g., Word2024)\n3. Words + Special Characters (e.g., word!, word@123)\n4. Mixed Case Randomized (e.g., wOrD123)\n5. All Options Combined (recommended)")
+        choice = input("\n❯ Enter your choice (1-5)?: ").strip() #strip to catch an accidental space in input
 
         if choice == '1':
-            clear_screen_with_message("\033[32m***Words + Numbers selected\033[0m")
-            time.sleep(2)
+            print("\n***Words + Numbers selected\n")
             return choice
         elif choice == '2':
-            clear_screen_with_message("\033[32m***Capitalized + Year selected\033[0m")
-            time.sleep(2)
+            print("\n***Capitalized + Year selected\n")
             return choice
         elif choice == '3':
-            clear_screen_with_message("\033[32m***Words + Special Characters selected\033[0m") 
-            time.sleep(2)
+            print("\n***Words + Special Characters selected\n")
             return choice
         elif choice == '4':
-            clear_screen_with_message("\033[32m***Mixed Case Randomized selected\033[0m")
-            time.sleep(2)
+            print("\n***Mixed Case Randomized selected\n")
             return choice
         elif choice == '5':
-            clear_screen_with_message("\033[32m***All Options Combined selected\033[0m")
-            time.sleep(2)
+            print("\n***All Options Combined selected\n")
             return choice
         else:
-            clear_screen_with_message("\033[31m***Invalid choice. Please select a number between 1 and 5.\033[0m")
-            time.sleep(3)
+            print("\n***Invalid choice. Please select a number between 1 and 5.\n")
 
-def ask_wordlist_length():
-    clear_screen_with_message("\033[33m\n❯ How many words (max 1.000.000) do you want to generate?\033[0m")
+def ask_wordlist_length():                                #Asks user desired amount of generated words
+    print("\n❯ How many words (max 1.000.000) do you want to generate?")
     while True:
         try:
-            count = int(input("❯ Number of words: "))
-            if 1 <= count <= 1000000:
+            count = (input("\n❯ Number of words: ")).strip()   #strip to catch an accidental space in input
+            if 1 <= int(count) <= 1000000:
                 return count
             else:
-                clear_screen_with_message("\033[31m***Please enter a number between 1 and 1.000.000.\033[0m")
-                time.sleep(3)
+                print("\n***Please enter a number between 1 and 1.000.000.\n")
         except ValueError:
-            clear_screen_with_message("\033[31m***Please enter a number between 1 and 1.000.000\033[0m")
-            time.sleep(3)
+            print("\n***Please enter a number between 1 and 1.000.000\n")
 
 def generate_years_combination(word, start=1900, end=2025):
     return [f"{word.capitalize()}{year}" for year in range(start, end)] + \
            [f"{word.upper()}{year}" for year in range(start, end)]
 
 def generate_wordlist(words, combination_type, count):
-    clear_screen_with_message("\033[32m\n❯❯❯ Generating wordlist..\033[0m")
+    print("\n❯❯❯ Generating wordlist...\n")
     logging.info("Wordlist generation started.")
-    time.sleep(5)
     wordlist = set()
 
     if combination_type == "1":
-        for word in words:
-            wordlist.update([word + "123", "123" + word, word + "456"])
+        count1 = 0
+        while count1 != int(count):
+            word = words[count1 % len(words)]      #This loops the list if desired word count is higher than input word count
+            wordlist.update([word + ''.join(str(random.randint(0, 9)) for _ in range(random.randint(2, 5)))])   #Uses random to generate a number between 0-9, and a random amount between 2 and 5. This generates outcomes between 00-99999
+            count1 += 1
     elif combination_type == "2":
         for word in words:
             wordlist.update(generate_years_combination(word))
@@ -125,18 +117,17 @@ def generate_wordlist(words, combination_type, count):
                                  ])
     
     logging.info(f"Generated {len(wordlist)} combinations.")
-    return list(wordlist)[:count]
+    return list(wordlist)[:int(count)]
 
-def save_wordlist(wordlist, filename):
-    clear_screen_with_message("\033[32m\n❯❯ Saving wordlist..\033[0m")
+def save_wordlist(wordlist, filename):                         #file writing
+    print("\n❯❯ Saving wordlist..")
     logging.info("Saving wordlist to file.")
     with open(filename, "w", encoding="utf-8") as f:
         for word in wordlist:
             f.write(word + "\n")
-    clear_screen_with_message(f"\033[47;30m\n❯❯ Wordlist successfully saved to {os.path.abspath(filename)}\n\033[0m")
+    print(f"\n❯❯ Wordlist successfully saved to {os.path.abspath(filename)}\n")
     logging.info(f"Wordlist successfully saved to {os.path.abspath(filename)}")
     print("*The notification takes 10 seconds to appear.")
-    time.sleep(10)
 
 def main():
     print_header()
@@ -144,16 +135,14 @@ def main():
     output_file = choose_output_file()
 
     while True:
-        clear_screen_with_message("\033[33m\n❯ Enter words separated by spaces.\033[0m")
+        print("\n❯ Enter words separated by spaces.")
         words_input = input("Words: ").split()
 
         if words_input:
-            clear_screen_with_message("\033[32m***Words selected\033[0m")
-            time.sleep(2)
+            print("\n***Words selected")
             break
         else:
-            clear_screen_with_message("\033[31m***Invalid Input. Please enter the words.\033[0m")
-            time.sleep(2)
+            print("\n***Invalid Input. Please enter the words.")
 
     combination_type = choose_combination_type()
 
@@ -165,8 +154,7 @@ def main():
 
     logging.info("Operation completed successfully.")
 
-    clear_screen_with_message("❯ It will automatically shut down after 5 seconds...")
-    time.sleep(5)
+    print("❯ It will automatically shut down after 5 seconds...")
 
 if __name__ == "__main__":
     main()
