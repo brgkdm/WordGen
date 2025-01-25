@@ -28,3 +28,4 @@ python wordgen.py
 ```
 ## Contributors  
 - [sudoAshroom](https://github.com/sudoAshroom) - Major code improvements and optimizations
+- Updates [Updates.md](https://github.com/brgkdm/WordGen/blob/main/Updates.md)
