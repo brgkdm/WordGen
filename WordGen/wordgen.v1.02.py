@@ -1,23 +1,22 @@
+from datetime import date
 import itertools
+import logging
+import os
 import random
 import string
-import os
 import sys
-import logging
-import random
-from datetime import date
 
-#from memory_profiler import profile, memory_usage            #Keep for easy memory testing later
-
-
+# from memory_profiler import profile, memory_usage            #Keep for easy memory testing later
 
 logging.basicConfig(filename="wordgen.log", level=logging.INFO,
                     format="%(asctime)s - %(levelname)s - %(message)s")
+
 
 def print_brg(message):
     print("\033[32m")
     print(message)
     print("\033[0m")
+
 
 def print_header():
     print(r"""
@@ -35,8 +34,9 @@ created by: https://github.com/brgkdm edited by: https://github.com/sudoAshroom
           """)
     print("*If you create the same file twice, it will overwrite the file.")
 
-def choose_output_file():                                  #dictates file name
-    default_name = f"wordlist_{random.randrange(1,10000000000)}.txt"
+
+def choose_output_file():  # dictates file name
+    default_name = f"wordlist_{random.randrange(1, 10000000000)}.txt"
     print(f"❯ Default file name: {default_name}\n\nEnter file name (or press Enter for default): ")
     filename = input()
     if not filename:
@@ -46,10 +46,12 @@ def choose_output_file():                                  #dictates file name
     print(f"\n***The wordlist will be saved as: {filename} in the current directory.\n")
     return filename
 
-def choose_combination_type():                             #Generation choices for the user
+
+def choose_combination_type():  # Generation choices for the user
     while True:
-        print("❯ Select the type of password combination to generate.\n\n1. Words + Numbers (e.g., word123, 123word)\n2. Capitalized + Year (e.g., Word2024)\n3. Words + Special Characters (e.g., word!, word@123)\n4. Mixed Case Randomized (e.g., wOrD123)\n5. All Options Combined (recommended)")
-        choice = input("\n❯ Enter your choice (1-5)?: ").strip() #strip to catch an accidental space in input
+        print(
+            "❯ Select the type of password combination to generate.\n\n1. Words + Numbers (e.g., word123, 123word)\n2. Capitalized + Year (e.g., Word2024)\n3. Words + Special Characters (e.g., word!, word@123)\n4. Mixed Case Randomized (e.g., wOrD123)\n5. All Options Combined (recommended)")
+        choice = input("\n❯ Enter your choice (1-5)?: ").strip()  # strip to catch an accidental space in input
 
         if choice == '1':
             print("\n***Words + Numbers selected\n")
@@ -69,11 +71,12 @@ def choose_combination_type():                             #Generation choices f
         else:
             print("\n***Invalid choice. Please select a number between 1 and 5.\n")
 
-def ask_wordlist_length():                                #Asks user desired amount of generated words
+
+def ask_wordlist_length():  # Asks user desired amount of generated words
     print("\n❯ How many words (max 1.000.000) do you want to generate?")
     while True:
         try:
-            count = (input("\n❯ Number of words: ")).strip()   #strip to catch an accidental space in input
+            count = (input("\n❯ Number of words: ")).strip()  # strip to catch an accidental space in input
             if 1 <= int(count) <= 1000000:
                 return count
             else:
@@ -81,12 +84,14 @@ def ask_wordlist_length():                                #Asks user desired amo
         except ValueError:
             print("\n***Please enter a number between 1 and 1.000.000\n")
 
-def generate_years_combination(word, start=1900, end=str(date.today().strftime("%Y"))):       #calling current year instead of a set year
+
+def generate_years_combination(word, start=1900,
+                               end=str(date.today().strftime("%Y"))):  # calling current year instead of a set year
     return [f"{word.capitalize()}{year}" for year in range(int(start), int(end))] + \
-           [f"{word.upper()}{year}" for year in range(int(start), int(end))]
+        [f"{word.upper()}{year}" for year in range(int(start), int(end))]
 
 
-#WORD GENERATION
+# WORD GENERATION
 def generate_wordlist(words, combination_type, count):
     print("\n❯❯❯ Generating wordlist...\n")
     logging.info("Wordlist generation started.")
@@ -94,9 +99,12 @@ def generate_wordlist(words, combination_type, count):
 
     if combination_type == "1":
         count1 = 0
-        while count1 != int(count):          #Using a while loop instead of 'for word in words' to ensure we can go for the desired count, even if that's greater than numbers provided
-            word = words[count1 % len(words)]      #This loops the list if desired word count is higher than input word count
-            wordlist.update([word + ''.join(str(random.randint(0, 9)) for _ in range(random.randint(2, 5)))])   #Uses random to generate a number between 0-9, and a random amount between 2 and 5. This generates outcomes between 00-99999
+        while count1 != int(
+                count):  # Using a while loop instead of 'for word in words' to ensure we can go for the desired count, even if that's greater than numbers provided
+            word = words[
+                count1 % len(words)]  # This loops the list if desired word count is higher than input word count
+            wordlist.update([word + ''.join(str(random.randint(0, 9)) for _ in range(random.randint(2,
+                                                                                                    5)))])  # Uses random to generate a number between 0-9, and a random amount between 2 and 5. This generates outcomes between 00-99999
             count1 += 1
     elif combination_type == "2":
         for word in words:
@@ -118,14 +126,15 @@ def generate_wordlist(words, combination_type, count):
                                  word.capitalize() + str(year),
                                  word.upper() + str(year),
                                  word + "!", word + "@123",
-                                 ''.join(random.choice([c.lower(), c.upper()]) for c in word) + str(random.randint(100, 999))
+                                 ''.join(random.choice([c.lower(), c.upper()]) for c in word) + str(
+                                     random.randint(100, 999))
                                  ])
-    
+
     logging.info(f"Generated {len(wordlist)} combinations.")
     return list(wordlist)[:int(count)]
 
 
-#WORD WRITING
+# WORD WRITING
 def save_wordlist(wordlist, filename):
     print("\n❯❯ Saving wordlist..")
     logging.info("Saving wordlist to file.")
@@ -134,15 +143,15 @@ def save_wordlist(wordlist, filename):
             f.write(word + "\n")
     print(f"\n❯❯ Wordlist successfully saved to {os.path.abspath(filename)}\n")
     logging.info(f"Wordlist successfully saved to {os.path.abspath(filename)}")
-    print("*The notification takes 10 seconds to appear.")
 
 
-#@profile #memory testing                            #Keep for easy memory testing later
+# @profile #memory testing                            #Keep for easy memory testing later
 def main():
     while True:
         print_header()
         start = input("\033[0m\nPress Enter to start or type anything to quit.\n")
         if start != "":
+            print("\nProgram Closing.\n")
             break
         elif start == "":
             output_file = choose_output_file()
@@ -167,8 +176,8 @@ def main():
 
             logging.info("Operation completed successfully.")
 
-            print("❯ It will automatically shut down after 5 seconds...")
+            print("Operation complete. Program closing.")
             return
 
-main()
 
+main()
